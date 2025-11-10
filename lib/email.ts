@@ -1,10 +1,9 @@
 import { Resend } from 'resend';
 
-if (!process.env.RESEND_API_KEY) {
-  console.warn('RESEND_API_KEY is not defined. Email sending will fail.');
-}
-
-export const resend = new Resend(process.env.RESEND_API_KEY);
+// Initialize Resend only if API key is available
+export const resend = process.env.RESEND_API_KEY
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null;
 
 // Email sender configuration
 export const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'noreply@nantucketpros.com';
@@ -20,6 +19,11 @@ export interface EmailOptions {
 
 export async function sendEmail({ to, subject, html, replyTo }: EmailOptions) {
   try {
+    if (!resend) {
+      console.warn('Resend is not initialized. Email not sent.');
+      return { success: false, error: 'Email service not configured' };
+    }
+
     const { data, error } = await resend.emails.send({
       from: `${APP_NAME} <${FROM_EMAIL}>`,
       to: [to],
