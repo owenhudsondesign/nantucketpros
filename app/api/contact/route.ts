@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sendEmail } from "@/lib/email";
 import { withRateLimit, RATE_LIMITS } from "@/lib/rate-limit";
+import { escapeHtml } from "@/lib/html-escape";
+import { logger } from "@/lib/logger";
 
 interface ContactFormData {
   name: string;
@@ -10,6 +12,12 @@ interface ContactFormData {
 }
 
 function contactFormEmail(data: ContactFormData): string {
+  // Escape all user input to prevent XSS attacks
+  const safeName = escapeHtml(data.name);
+  const safeEmail = escapeHtml(data.email);
+  const safeSubject = escapeHtml(data.subject);
+  const safeMessage = escapeHtml(data.message).replace(/\n/g, '<br>');
+
   return `
     <!DOCTYPE html>
     <html>
@@ -34,19 +42,19 @@ function contactFormEmail(data: ContactFormData): string {
           <div class="content">
             <div class="field">
               <div class="field-label">From:</div>
-              <div class="field-value">${data.name}</div>
+              <div class="field-value">${safeName}</div>
             </div>
             <div class="field">
               <div class="field-label">Email:</div>
-              <div class="field-value">${data.email}</div>
+              <div class="field-value">${safeEmail}</div>
             </div>
             <div class="field">
               <div class="field-label">Subject:</div>
-              <div class="field-value">${data.subject}</div>
+              <div class="field-value">${safeSubject}</div>
             </div>
             <div class="field">
               <div class="field-label">Message:</div>
-              <div class="field-value">${data.message.replace(/\n/g, '<br>')}</div>
+              <div class="field-value">${safeMessage}</div>
             </div>
           </div>
           <div class="footer">
@@ -94,7 +102,7 @@ export async function POST(request: NextRequest) {
         });
 
         if (!result.success) {
-          console.error("Failed to send contact email:", result.error);
+          logger.error("Failed to send contact email", result.error);
           return NextResponse.json(
             { error: "Failed to send message. Please try again later." },
             { status: 500 }
@@ -121,7 +129,7 @@ export async function POST(request: NextRequest) {
                   <h1>Thank You for Contacting Us</h1>
                 </div>
                 <div class="content">
-                  <p>Hi ${name},</p>
+                  <p>Hi ${escapeHtml(name)},</p>
                   <p>Thank you for reaching out to NantucketPros. We've received your message and our support team will get back to you as soon as possible, typically within 1-2 business days.</p>
                   <p>In the meantime, you might find answers to common questions in our <a href="${process.env.NEXT_PUBLIC_SITE_URL}/faq">Help Center</a>.</p>
                   <p>Best regards,<br>The NantucketPros Team</p>
@@ -145,7 +153,7 @@ export async function POST(request: NextRequest) {
           message: "Message sent successfully. We'll get back to you soon!",
         });
       } catch (error: any) {
-        console.error("Contact API error:", error);
+        logger.error("Contact API error", error);
         return NextResponse.json(
           { error: "An unexpected error occurred. Please try again later." },
           { status: 500 }

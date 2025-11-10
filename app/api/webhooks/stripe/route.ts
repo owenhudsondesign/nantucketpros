@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server';
 import { stripe } from '@/lib/stripe';
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
+import { logger } from '@/lib/logger';
 
 // Disable body parsing, need raw body for webhook signature verification
 export const runtime = 'nodejs';
@@ -24,7 +25,7 @@ export async function POST(request: Request) {
       process.env.STRIPE_WEBHOOK_SECRET!
     );
   } catch (err: any) {
-    console.error('Webhook signature verification failed:', err.message);
+    logger.error('Webhook signature verification failed', err);
     return NextResponse.json(
       { error: `Webhook Error: ${err.message}` },
       { status: 400 }
@@ -39,7 +40,7 @@ export async function POST(request: Request) {
       case 'payment_intent.succeeded':
         {
           const paymentIntent = event.data.object as Stripe.PaymentIntent;
-          console.log('PaymentIntent succeeded:', paymentIntent.id);
+          logger.info('PaymentIntent succeeded', { paymentIntentId: paymentIntent.id });
 
           // Update booking with payment confirmation
           const bookingId = paymentIntent.metadata.booking_id;
@@ -52,9 +53,9 @@ export async function POST(request: Request) {
               .eq('id', bookingId);
 
             if (error) {
-              console.error('Failed to update booking:', error);
+              logger.error('Failed to update booking', error, { bookingId });
             } else {
-              console.log('Booking updated with payment:', bookingId);
+              logger.info('Booking updated with payment', { bookingId });
               // TODO: Send email notification to vendor
             }
           }
@@ -64,7 +65,7 @@ export async function POST(request: Request) {
       case 'payment_intent.payment_failed':
         {
           const paymentIntent = event.data.object as Stripe.PaymentIntent;
-          console.log('PaymentIntent failed:', paymentIntent.id);
+          logger.warn('PaymentIntent failed', { paymentIntentId: paymentIntent.id });
 
           // TODO: Notify customer and vendor about payment failure
           // Optionally update booking status or add a note
@@ -74,7 +75,7 @@ export async function POST(request: Request) {
       case 'account.updated':
         {
           const account = event.data.object as Stripe.Account;
-          console.log('Account updated:', account.id);
+          logger.info('Account updated', { accountId: account.id });
 
           // Update vendor onboarding status
           const { error } = await supabase
@@ -85,7 +86,7 @@ export async function POST(request: Request) {
             .eq('stripe_account_id', account.id);
 
           if (error) {
-            console.error('Failed to update vendor account status:', error);
+            logger.error('Failed to update vendor account status', error, { accountId: account.id });
           }
         }
         break;
@@ -93,7 +94,7 @@ export async function POST(request: Request) {
       case 'charge.succeeded':
         {
           const charge = event.data.object as Stripe.Charge;
-          console.log('Charge succeeded:', charge.id);
+          logger.info('Charge succeeded', { chargeId: charge.id });
           // Additional tracking or analytics
         }
         break;
@@ -101,7 +102,7 @@ export async function POST(request: Request) {
       case 'charge.failed':
         {
           const charge = event.data.object as Stripe.Charge;
-          console.log('Charge failed:', charge.id);
+          logger.warn('Charge failed', { chargeId: charge.id });
           // TODO: Handle failed charges
         }
         break;
@@ -111,12 +112,12 @@ export async function POST(request: Request) {
       // These are logged but not critical for core functionality
 
       default:
-        console.log(`Unhandled event type: ${event.type}`);
+        logger.debug('Unhandled event type', { eventType: event.type });
     }
 
     return NextResponse.json({ received: true });
   } catch (error: any) {
-    console.error('Webhook handler error:', error);
+    logger.error('Webhook handler error', error);
     return NextResponse.json(
       { error: 'Webhook handler failed' },
       { status: 500 }
