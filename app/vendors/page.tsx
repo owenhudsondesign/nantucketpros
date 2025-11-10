@@ -265,7 +265,7 @@ export default function VendorsDirectoryPage() {
         <div className="container mx-auto px-4 py-8">
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-4xl font-bold text-foreground">Find Local Businesses</h1>
+            <h1 className="text-3xl font-bold text-foreground">Find Local Businesses</h1>
             <p className="text-muted-foreground mt-2">
               Browse verified service professionals on Nantucket
             </p>
