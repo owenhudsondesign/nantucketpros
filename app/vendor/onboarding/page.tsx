@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
-export default function VendorOnboardingPage() {
+function VendorOnboardingForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { user, loading: authLoading } = useAuth();
@@ -211,5 +211,13 @@ export default function VendorOnboardingPage() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+export default function VendorOnboardingPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <VendorOnboardingForm />
+    </Suspense>
   );
 }
