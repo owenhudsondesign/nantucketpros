@@ -37,14 +37,14 @@ export default function HomePage() {
 
               <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-tight">
                 <span className="bg-gradient-to-br from-foreground via-foreground to-foreground/60 bg-clip-text text-transparent">
-                  Nantucket's<br />
+                  Nantucket&apos;s<br />
                   Service<br />
                   Marketplace
                 </span>
               </h1>
 
               <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                Connect property owners and caretakers with Nantucket's most trusted service professionals
+                Connect property owners and caretakers with Nantucket&apos;s most trusted service professionals
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">

@@ -68,7 +68,7 @@ export default function AboutPage() {
                   <div className="text-4xl">🤝</div>
                   <h3 className="text-xl font-semibold">Trust</h3>
                   <p className="text-muted-foreground">
-                    Every vendor is verified, licensed, and insured. We vet professionals so you don't have to.
+                    Every vendor is verified, licensed, and insured. We vet professionals so you don&apos;t have to.
                   </p>
                 </div>
                 <div className="space-y-3 text-center">
@@ -96,7 +96,7 @@ export default function AboutPage() {
             <div className="max-w-4xl mx-auto text-center space-y-6">
               <h2 className="text-3xl md:text-4xl font-bold">Island Roots</h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                We're a small team with deep ties to Nantucket. We understand the seasonal rhythms, the unique challenges of island logistics, and the importance of trusted relationships in this community.
+                We&apos;re a small team with deep ties to Nantucket. We understand the seasonal rhythms, the unique challenges of island logistics, and the importance of trusted relationships in this community.
               </p>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                 Our goal is simple: make it easier for everyone who loves this island to maintain and improve their piece of it.

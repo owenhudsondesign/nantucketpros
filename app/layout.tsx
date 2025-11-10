@@ -9,7 +9,7 @@ const ibmPlexSans = IBM_Plex_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "NantucketPros - Nantucket's Trusted Service Marketplace",
+  title: "NantucketPros - Nantucket&apos;s Trusted Service Marketplace",
   description: "Connect with verified local tradespeople and service vendors on Nantucket. Find reliable professionals for your home projects.",
   keywords: ["Nantucket", "services", "vendors", "tradespeople", "home services", "contractors"],
   icons: {

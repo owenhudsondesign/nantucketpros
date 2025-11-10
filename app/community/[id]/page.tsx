@@ -326,7 +326,7 @@ export default function CommunityRequestDetailPage({ params }: { params: { id: s
         <Card>
           <CardContent className="pt-6">
             <p className="text-muted-foreground">
-              You've already responded to this request. The homeowner can see your response below.
+              You&apos;ve already responded to this request. The homeowner can see your response below.
             </p>
           </CardContent>
         </Card>

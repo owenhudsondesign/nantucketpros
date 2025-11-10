@@ -43,7 +43,7 @@ export default function TrustSafetyPage() {
                 <div className="space-y-3">
                   <h3 className="text-xl font-semibold">Insurance Requirements</h3>
                   <p className="text-muted-foreground">
-                    All vendors must carry general liability insurance and workers' compensation where applicable.
+                    All vendors must carry general liability insurance and workers&apos; compensation where applicable.
                   </p>
                 </div>
                 <div className="space-y-3">

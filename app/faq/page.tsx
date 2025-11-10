@@ -23,7 +23,7 @@ const faqs: FAQItem[] = [
   },
   {
     question: "How do I get started?",
-    answer: "Simply create an account by clicking the 'Get Started' button. Choose whether you're a homeowner looking for services or a vendor offering services. Homeowners can start browsing vendors immediately, while vendors will need to complete a verification process.",
+    answer: "Simply create an account by clicking the 'Get Started' button. Choose whether you&apos;re a homeowner looking for services or a vendor offering services. Homeowners can start browsing vendors immediately, while vendors will need to complete a verification process.",
     category: "general",
   },
   {
@@ -50,7 +50,7 @@ const faqs: FAQItem[] = [
   },
   {
     question: "What if I'm not satisfied with the work?",
-    answer: "Your payment is held in escrow until you approve the completed work. If there are issues, you can communicate with the vendor to resolve them. If you can't reach a resolution, contact our support team and we'll help mediate the dispute.",
+    answer: "Your payment is held in escrow until you approve the completed work. If there are issues, you can communicate with the vendor to resolve them. If you can&apos;t reach a resolution, contact our support team and we&apos;ll help mediate the dispute.",
     category: "homeowners",
   },
   {
@@ -92,7 +92,7 @@ const faqs: FAQItem[] = [
   },
   {
     question: "Can I set my own prices?",
-    answer: "Yes! You have complete control over your pricing. You can set hourly rates, flat fees, or provide custom quotes for each project. There's no price fixing - you decide what your services are worth.",
+    answer: "Yes! You have complete control over your pricing. You can set hourly rates, flat fees, or provide custom quotes for each project. There&apos;s no price fixing - you decide what your services are worth.",
     category: "vendors",
   },
 
@@ -114,7 +114,7 @@ const faqs: FAQItem[] = [
   },
   {
     question: "How do refunds work?",
-    answer: "If work is not completed or there's a significant issue, you can request a refund through our dispute resolution process. Our team will review the case and mediate a fair resolution between the homeowner and vendor.",
+    answer: "If work is not completed or there&apos;s a significant issue, you can request a refund through our dispute resolution process. Our team will review the case and mediate a fair resolution between the homeowner and vendor.",
     category: "payments",
   },
   {
@@ -130,8 +130,8 @@ const faqs: FAQItem[] = [
     category: "safety",
   },
   {
-    question: "What if there's a dispute?",
-    answer: "Our support team is here to help. Contact us immediately if there's an issue with a booking. We'll work with both parties to reach a fair resolution. Payment is held in escrow until disputes are resolved.",
+    question: "What if there&apos;s a dispute?",
+    answer: "Our support team is here to help. Contact us immediately if there&apos;s an issue with a booking. We'll work with both parties to reach a fair resolution. Payment is held in escrow until disputes are resolved.",
     category: "safety",
   },
   {
@@ -252,7 +252,7 @@ export default function FAQPage() {
                 Still Have Questions?
               </h2>
               <p className="text-lg text-muted-foreground">
-                Can't find what you're looking for? Our support team is here to help.
+                Can&apos;t find what you&apos;re looking for? Our support team is here to help.
               </p>
               <div className="pt-4">
                 <Link href="/contact">

@@ -191,7 +191,7 @@ export default function VendorDashboardPage() {
               <div>
                 <CardTitle>New Service Requests</CardTitle>
                 <CardDescription>
-                  Requests in your category that you haven't responded to yet
+                  Requests in your category that you haven&apos;t responded to yet
                 </CardDescription>
               </div>
               <Link href="/community">

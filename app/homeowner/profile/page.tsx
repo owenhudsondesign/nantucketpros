@@ -78,7 +78,7 @@ export default function HomeownerProfilePage() {
       // - Delete all user data (properties, bookings, etc.)
       // - Potentially keep some records for legal/audit purposes
       // - Send confirmation email
-      // For now, we'll just show a message
+      // For now, we&apos;ll just show a message
       setMessage({
         type: "error",
         text: "Account deletion is not yet implemented. Please contact support at owenhudsondesign@gmail.com to delete your account.",

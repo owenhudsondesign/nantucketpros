@@ -166,7 +166,7 @@ export default function BecomeVendorPage() {
                   <div className="space-y-1">
                     <h3 className="text-lg font-semibold">Insurance Coverage</h3>
                     <p className="text-muted-foreground">
-                      General liability insurance required. Workers' comp if you have employees.
+                      General liability insurance required. Workers&apos; comp if you have employees.
                     </p>
                   </div>
                 </div>
@@ -224,7 +224,7 @@ export default function BecomeVendorPage() {
                   <div className="space-y-2">
                     <h3 className="text-xl font-semibold">Submit Verification</h3>
                     <p className="text-muted-foreground">
-                      Upload your license, insurance, and business documents. We'll review within 48 hours.
+                      Upload your license, insurance, and business documents. We&apos;ll review within 48 hours.
                     </p>
                   </div>
                 </div>

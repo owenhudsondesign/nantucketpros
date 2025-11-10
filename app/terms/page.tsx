@@ -35,7 +35,7 @@ export default function TermsPage() {
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold">1. ACCEPTANCE OF TERMS</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  By creating an account, accessing, or using NantucketPros.com (the "Platform"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, do not use the Platform.
+                  By creating an account, accessing, or using NantucketPros.com (the &quot;Platform&quot;), you agree to be bound by these Terms of Service (&quot;Terms&quot;). If you do not agree to these Terms, do not use the Platform.
                 </p>
                 <p className="text-muted-foreground leading-relaxed">
                   NantucketPros operates solely as a marketplace platform connecting homeowners with service providers. <strong>WE ARE NOT A SERVICE PROVIDER AND DO NOT EMPLOY, RECOMMEND, ENDORSE, OR ASSUME ANY RESPONSIBILITY FOR ANY SERVICE PROVIDER OR THE SERVICES THEY PROVIDE.</strong>
@@ -46,11 +46,11 @@ export default function TermsPage() {
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold">2. DEFINITIONS</h2>
                 <ul className="space-y-2 text-muted-foreground">
-                  <li><strong>"Platform"</strong> refers to NantucketPros.com and all related services</li>
-                  <li><strong>"Homeowner"</strong> refers to any user seeking services through the Platform</li>
-                  <li><strong>"Service Provider"</strong> or <strong>"Business Owner"</strong> refers to any individual or business offering services through the Platform</li>
-                  <li><strong>"Services"</strong> refers to any work, labor, or services arranged through the Platform</li>
-                  <li><strong>"We," "Us," "Our"</strong> refers to NantucketPros and its operators</li>
+                  <li><strong>&quot;Platform&quot;</strong> refers to NantucketPros.com and all related services</li>
+                  <li><strong>&quot;Homeowner&quot;</strong> refers to any user seeking services through the Platform</li>
+                  <li><strong>&quot;Service Provider&quot;</strong> or <strong>&quot;Business Owner&quot;</strong> refers to any individual or business offering services through the Platform</li>
+                  <li><strong>&quot;Services&quot;</strong> refers to any work, labor, or services arranged through the Platform</li>
+                  <li><strong>&quot;We,&quot; &quot;Us,&quot; &quot;Our&quot;</strong> refers to NantucketPros and its operators</li>
                 </ul>
               </div>
 
@@ -152,7 +152,7 @@ export default function TermsPage() {
                     <p className="text-muted-foreground leading-relaxed">You represent and warrant that you:</p>
                     <ul className="list-disc pl-6 space-y-1 text-muted-foreground">
                       <li>Hold all necessary licenses, permits, and certifications required by law</li>
-                      <li>Maintain adequate liability and workers' compensation insurance</li>
+                      <li>Maintain adequate liability and workers&apos; compensation insurance</li>
                       <li>Comply with all applicable federal, state, and local laws and regulations</li>
                       <li>Have the skills, equipment, and experience to perform Services safely and competently</li>
                       <li>Are financially and legally responsible for all work performed</li>
@@ -226,7 +226,7 @@ export default function TermsPage() {
               <div className="space-y-4 bg-red-50 border-2 border-red-300 rounded-lg p-6">
                 <h2 className="text-2xl font-bold text-red-900">7. DISCLAIMER OF WARRANTIES</h2>
                 <p className="font-semibold text-red-900">
-                  TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE PLATFORM IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO:
+                  TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE PLATFORM IS PROVIDED &quot;AS IS&quot; AND &quot;AS AVAILABLE&quot; WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO:
                 </p>
                 <ul className="list-disc pl-6 space-y-2 text-red-900">
                   <li><strong>NO WARRANTY OF SERVICE QUALITY:</strong> We make no representations about the quality, safety, legality, or reliability of any Services or Service Providers</li>
@@ -282,7 +282,7 @@ export default function TermsPage() {
 
                 <h3 className="text-xl font-semibold text-yellow-900 mt-4">9.1 Homeowner Indemnification</h3>
                 <p className="text-yellow-900 leading-relaxed">
-                  You agree to indemnify, defend, and hold harmless NantucketPros, its officers, directors, employees, agents, and affiliates from and against any and all claims, damages, losses, costs, and expenses (including reasonable attorneys' fees) arising from:
+                  You agree to indemnify, defend, and hold harmless NantucketPros, its officers, directors, employees, agents, and affiliates from and against any and all claims, damages, losses, costs, and expenses (including reasonable attorneys&apos; fees) arising from:
                 </p>
                 <ul className="list-disc pl-6 space-y-1 text-yellow-900">
                   <li>Your use of the Platform</li>
@@ -295,7 +295,7 @@ export default function TermsPage() {
 
                 <h3 className="text-xl font-semibold text-yellow-900 mt-6">9.2 Service Provider Indemnification</h3>
                 <p className="text-yellow-900 leading-relaxed">
-                  You agree to indemnify, defend, and hold harmless NantucketPros, its officers, directors, employees, agents, and affiliates from and against any and all claims, damages, losses, costs, and expenses (including reasonable attorneys' fees) arising from:
+                  You agree to indemnify, defend, and hold harmless NantucketPros, its officers, directors, employees, agents, and affiliates from and against any and all claims, damages, losses, costs, and expenses (including reasonable attorneys&apos; fees) arising from:
                 </p>
                 <ul className="list-disc pl-6 space-y-1 text-yellow-900">
                   <li>Services you perform or fail to perform</li>
@@ -344,7 +344,7 @@ export default function TermsPage() {
                 </p>
                 <ul className="list-disc pl-6 space-y-1 text-muted-foreground">
                   <li>General liability insurance with minimum coverage of $1,000,000 per occurrence</li>
-                  <li>Workers' compensation insurance as required by law</li>
+                  <li>Workers&apos; compensation insurance as required by law</li>
                   <li>All necessary professional licenses and certifications</li>
                   <li>Any additional insurance required for specific Services</li>
                 </ul>

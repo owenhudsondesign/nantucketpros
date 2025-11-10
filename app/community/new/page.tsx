@@ -121,7 +121,7 @@ export default function NewCommunityRequestPage() {
         <CardHeader>
           <CardTitle>Request Details</CardTitle>
           <CardDescription>
-            Provide details about the service you need. The more specific, the better responses you'll get.
+            Provide details about the service you need. The more specific, the better responses you&apos;ll get.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -242,7 +242,7 @@ export default function NewCommunityRequestPage() {
                 </div>
               </div>
               <p className="text-xs text-muted-foreground">
-                Leave blank if you're not sure. Vendors will provide quotes.
+                Leave blank if you&apos;re not sure. Vendors will provide quotes.
               </p>
             </div>
 
