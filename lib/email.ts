@@ -15,15 +15,17 @@ export interface EmailOptions {
   to: string;
   subject: string;
   html: string;
+  replyTo?: string;
 }
 
-export async function sendEmail({ to, subject, html }: EmailOptions) {
+export async function sendEmail({ to, subject, html, replyTo }: EmailOptions) {
   try {
     const { data, error } = await resend.emails.send({
       from: `${APP_NAME} <${FROM_EMAIL}>`,
       to: [to],
       subject,
       html,
+      ...(replyTo && { reply_to: replyTo }),
     });
 
     if (error) {
