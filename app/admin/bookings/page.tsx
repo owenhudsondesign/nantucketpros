@@ -115,14 +115,13 @@ export default function AdminBookingsPage() {
       setProcessing(true);
       setMessage(null);
 
-      const { error } = await supabase
-        .from("bookings")
-        .update({
-          status: "cancelled" as const,
-          cancelled_at: new Date().toISOString(),
-          cancellation_reason: `[Admin] ${cancellationReason.trim()}`,
-        } as any)
-        .eq("id", selectedBooking.id);
+      const query = supabase.from("bookings");
+      // @ts-expect-error - Supabase generated types issue with update operation
+      const { error } = await query.update({
+        status: "cancelled",
+        cancelled_at: new Date().toISOString(),
+        cancellation_reason: `[Admin] ${cancellationReason.trim()}`,
+      }).eq("id", selectedBooking.id);
 
       if (error) throw error;
 

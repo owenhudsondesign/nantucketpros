@@ -82,7 +82,7 @@ export default function AdminDashboardPage() {
 
       const completedBookings = completedBookingsData?.length || 0;
       const totalRevenue = completedBookingsData?.reduce(
-        (sum, booking) => sum + (booking.price || 0),
+        (sum, booking: any) => sum + (booking.price || 0),
         0
       ) || 0;
       const platformRevenue = totalRevenue * 0.05; // 5% commission
@@ -102,7 +102,7 @@ export default function AdminDashboardPage() {
         .select("rating");
 
       const averageRating = reviewsData && reviewsData.length > 0
-        ? reviewsData.reduce((sum, r) => sum + r.rating, 0) / reviewsData.length
+        ? reviewsData.reduce((sum, r: any) => sum + r.rating, 0) / reviewsData.length
         : 0;
 
       setStats({

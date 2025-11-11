@@ -32,12 +32,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Vendor profile not found' }, { status: 404 });
     }
 
+    const vendorData = vendor as any;
+
     // Get booking and verify it's confirmed with payment
     const { data: booking, error: bookingError } = await supabase
       .from('bookings')
       .select('*')
       .eq('id', booking_id)
-      .eq('vendor_id', vendor.id)
+      .eq('vendor_id', vendorData.id)
       .eq('status', 'confirmed')
       .single();
 
@@ -48,8 +50,10 @@ export async function POST(request: Request) {
       );
     }
 
+    const bookingData = booking as any;
+
     // Check if payment was received
-    if (!booking.stripe_payment_intent_id) {
+    if (!bookingData.stripe_payment_intent_id) {
       return NextResponse.json(
         { error: 'Payment not yet received for this booking' },
         { status: 400 }
@@ -57,13 +61,12 @@ export async function POST(request: Request) {
     }
 
     // Update booking status to completed
-    const { error: updateError } = await supabase
-      .from('bookings')
-      .update({
-        status: 'completed',
-        completed_at: new Date().toISOString(),
-      })
-      .eq('id', booking_id);
+    const query = supabase.from('bookings');
+    // @ts-expect-error - Supabase type inference issue with update
+    const { error: updateError } = await query.update({
+      status: 'completed',
+      completed_at: new Date().toISOString(),
+    }).eq('id', booking_id);
 
     if (updateError) {
       console.error('Failed to update booking:', updateError);
@@ -78,14 +81,17 @@ export async function POST(request: Request) {
       const { data: customer } = await supabase
         .from('users')
         .select('email, full_name')
-        .eq('id', booking.customer_id)
+        .eq('id', bookingData.customer_id)
         .single();
 
       const { data: vendorProfile } = await supabase
         .from('vendors')
         .select('business_name')
-        .eq('id', vendor.id)
+        .eq('id', vendorData.id)
         .single();
+
+      const customerData = customer as any;
+      const vendorProfileData = vendorProfile as any;
 
       if (customer && vendorProfile) {
         await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/emails/send`, {
@@ -94,10 +100,10 @@ export async function POST(request: Request) {
           body: JSON.stringify({
             type: 'booking_completed',
             data: {
-              customerName: customer.full_name,
-              customerEmail: customer.email,
-              vendorName: vendorProfile.business_name,
-              serviceType: booking.service_type,
+              customerName: customerData.full_name,
+              customerEmail: customerData.email,
+              vendorName: vendorProfileData.business_name,
+              serviceType: bookingData.service_type,
               bookingId: booking_id,
             },
           }),

@@ -42,7 +42,8 @@ export async function POST(request: NextRequest) {
         }
 
         // Check if Stripe onboarding is complete
-        if (!vendor.stripe_account_id || !vendor.stripe_onboarding_complete) {
+        const vendorData = vendor as any;
+        if (!vendorData.stripe_account_id || !vendorData.stripe_onboarding_complete) {
           return NextResponse.json(
             { error: 'Please complete Stripe Connect onboarding first' },
             { status: 400 }
@@ -54,7 +55,7 @@ export async function POST(request: NextRequest) {
           .from('bookings')
           .select('*')
           .eq('id', booking_id)
-          .eq('vendor_id', vendor.id)
+          .eq('vendor_id', vendorData.id)
           .eq('status', 'pending')
           .single();
 
@@ -65,6 +66,8 @@ export async function POST(request: NextRequest) {
           );
         }
 
+        const bookingData = booking as any;
+
         // Get platform commission rate
         const { data: commissionSetting } = await supabase
           .from('admin_settings')
@@ -73,7 +76,7 @@ export async function POST(request: NextRequest) {
           .single();
 
         const commissionRate = commissionSetting
-          ? parseFloat(commissionSetting.value as string)
+          ? parseFloat((commissionSetting as any).value as string)
           : 0.15; // Default 15%
 
         // Create Stripe Payment Intent with application fee
@@ -85,26 +88,25 @@ export async function POST(request: NextRequest) {
           currency: 'usd',
           application_fee_amount: applicationFeeAmount,
           transfer_data: {
-            destination: vendor.stripe_account_id,
+            destination: vendorData.stripe_account_id,
           },
           metadata: {
             booking_id: booking_id,
-            vendor_id: vendor.id,
-            customer_id: booking.customer_id,
+            vendor_id: vendorData.id,
+            customer_id: bookingData.customer_id,
           },
           // Automatically capture payment (can change to manual if needed)
           capture_method: 'automatic',
         });
 
         // Update booking with price and payment intent
-        const { error: updateError } = await supabase
-          .from('bookings')
-          .update({
-            status: 'confirmed',
-            price: price,
-            stripe_payment_intent_id: paymentIntent.id,
-          })
-          .eq('id', booking_id);
+        const query2 = supabase.from('bookings');
+        // @ts-expect-error - Supabase type inference issue with update
+        const { error: updateError } = await query2.update({
+          status: 'confirmed',
+          price: price,
+          stripe_payment_intent_id: paymentIntent.id,
+        }).eq('id', booking_id);
 
         if (updateError) {
           console.error('Failed to update booking:', updateError);
@@ -121,7 +123,7 @@ export async function POST(request: NextRequest) {
           const { data: customer } = await supabase
             .from('users')
             .select('email, full_name')
-            .eq('id', booking.customer_id)
+            .eq('id', bookingData.customer_id)
             .single();
 
           const { data: vendorUser } = await supabase
@@ -133,8 +135,11 @@ export async function POST(request: NextRequest) {
           const { data: vendorProfile } = await supabase
             .from('vendors')
             .select('business_name')
-            .eq('id', vendor.id)
+            .eq('id', vendorData.id)
             .single();
+
+          const customerData = customer as any;
+          const vendorProfileData = vendorProfile as any;
 
           if (customer && vendorProfile) {
             await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/emails/send`, {
@@ -143,10 +148,10 @@ export async function POST(request: NextRequest) {
               body: JSON.stringify({
                 type: 'booking_confirmed',
                 data: {
-                  customerName: customer.full_name,
-                  customerEmail: customer.email,
-                  vendorName: vendorProfile.business_name,
-                  serviceType: booking.service_type,
+                  customerName: customerData.full_name,
+                  customerEmail: customerData.email,
+                  vendorName: vendorProfileData.business_name,
+                  serviceType: bookingData.service_type,
                   price: price,
                   bookingId: booking_id,
                 },

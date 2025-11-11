@@ -69,15 +69,16 @@ export default function AdminVendorsPage() {
 
       // Fetch ratings for each vendor
       const vendorsWithRatings = await Promise.all(
-        (data || []).map(async (vendor) => {
+        (data || []).map(async (vendor: any) => {
+          // @ts-expect-error - Supabase RPC type inference issue
           const { data: reviewStats } = await supabase.rpc("get_vendor_rating", {
             vendor_id: vendor.id,
           });
 
           return {
             ...vendor,
-            average_rating: reviewStats?.average_rating || 0,
-            total_reviews: reviewStats?.total_reviews || 0,
+            average_rating: (reviewStats as any)?.average_rating || 0,
+            total_reviews: (reviewStats as any)?.total_reviews || 0,
           };
         })
       );
@@ -99,10 +100,9 @@ export default function AdminVendorsPage() {
       setProcessingId(vendorId);
       setMessage(null);
 
-      const { error } = await supabase
-        .from("vendors")
-        .update({ is_verified: !currentStatus })
-        .eq("id", vendorId);
+      const query = supabase.from("vendors");
+      // @ts-expect-error - Supabase type inference issue with update
+      const { error } = await query.update({ is_verified: !currentStatus }).eq("id", vendorId);
 
       if (error) throw error;
 
