@@ -44,6 +44,7 @@ export async function GET(request: Request) {
       const role = data.user.user_metadata.role || 'homeowner'
       const fullName = data.user.user_metadata.full_name || null
 
+      // @ts-expect-error - Supabase type inference issue with insert
       const { error: insertError } = await supabase.from('users').insert({
         id: data.user.id,
         email: data.user.email!,

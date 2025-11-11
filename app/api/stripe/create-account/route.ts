@@ -35,11 +35,13 @@ export async function POST(request: NextRequest) {
           );
         }
 
+        const vendorData = vendor as any;
+
         // Check if vendor already has a Stripe account
-        if (vendor.stripe_account_id) {
+        if (vendorData.stripe_account_id) {
           // Return existing account ID
           return NextResponse.json({
-            accountId: vendor.stripe_account_id,
+            accountId: vendorData.stripe_account_id,
             exists: true,
           });
         }
@@ -51,11 +53,13 @@ export async function POST(request: NextRequest) {
           .eq('id', user.id)
           .single();
 
+        const userProfileData = userProfile as any;
+
         // Create Stripe Connect Express account
         const account = await stripe.accounts.create({
           type: 'express',
           country: 'US',
-          email: userProfile?.email,
+          email: userProfileData?.email,
           capabilities: {
             card_payments: { requested: true },
             transfers: { requested: true },
@@ -63,16 +67,15 @@ export async function POST(request: NextRequest) {
           business_type: 'individual',
           business_profile: {
             mcc: '1799', // Special Trade Contractors
-            name: vendor.business_name,
-            product_description: vendor.description,
+            name: vendorData.business_name,
+            product_description: vendorData.description,
           },
         });
 
         // Save Stripe account ID to vendor profile
-        const { error: updateError } = await supabase
-          .from('vendors')
-          .update({ stripe_account_id: account.id })
-          .eq('id', vendor.id);
+        const query = supabase.from('vendors');
+        // @ts-expect-error - Supabase type inference issue with update
+        const { error: updateError } = await query.update({ stripe_account_id: account.id }).eq('id', vendorData.id);
 
         if (updateError) {
           console.error('Failed to save Stripe account ID:', updateError);

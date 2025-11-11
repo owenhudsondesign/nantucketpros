@@ -43,13 +43,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Booking not found" }, { status: 404 });
     }
 
+    const bookingData = booking as any;
+
     // Verify user is the customer
-    if (booking.customer_id !== user.id) {
+    if (bookingData.customer_id !== user.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
     }
 
     // Verify booking has a price
-    if (!booking.price || booking.price <= 0) {
+    if (!bookingData.price || bookingData.price <= 0) {
       return NextResponse.json(
         { error: "Booking must have a valid price" },
         { status: 400 }
@@ -57,8 +59,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Calculate platform fee (5% of total)
-    const platformFeeAmount = Math.round(booking.price * 100 * 0.05);
-    const totalAmount = Math.round(booking.price * 100);
+    const platformFeeAmount = Math.round(bookingData.price * 100 * 0.05);
+    const totalAmount = Math.round(bookingData.price * 100);
 
     // Create Checkout Session
     const session = await stripe.checkout.sessions.create({
@@ -68,8 +70,8 @@ export async function POST(request: NextRequest) {
           price_data: {
             currency: "usd",
             product_data: {
-              name: `${booking.service_type} - ${booking.vendor.business_name}`,
-              description: booking.description,
+              name: `${bookingData.service_type} - ${bookingData.vendor.business_name}`,
+              description: bookingData.description,
             },
             unit_amount: totalAmount,
           },
@@ -82,7 +84,7 @@ export async function POST(request: NextRequest) {
       metadata: {
         booking_id: bookingId,
         customer_id: user.id,
-        vendor_id: booking.vendor_id,
+        vendor_id: bookingData.vendor_id,
       },
       payment_intent_data: {
         application_fee_amount: platformFeeAmount,

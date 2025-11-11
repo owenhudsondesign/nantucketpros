@@ -42,15 +42,14 @@ export async function POST(request: NextRequest) {
 
         if (bookingId) {
           // Update booking status to paid
-          const { error: updateError } = await supabase
-            .from("bookings")
-            .update({
-              status: "confirmed",
-              payment_status: "paid",
-              stripe_payment_intent_id: session.payment_intent as string,
-              updated_at: new Date().toISOString(),
-            })
-            .eq("id", bookingId);
+          const query = supabase.from("bookings");
+          // @ts-expect-error - Supabase type inference issue with update
+          const { error: updateError } = await query.update({
+            status: "confirmed",
+            payment_status: "paid",
+            stripe_payment_intent_id: session.payment_intent as string,
+            updated_at: new Date().toISOString(),
+          }).eq("id", bookingId);
 
           if (updateError) {
             console.error("Failed to update booking:", updateError);
@@ -77,13 +76,12 @@ export async function POST(request: NextRequest) {
 
         if (bookingId) {
           // Update booking payment status to failed
-          const { error: updateError } = await supabase
-            .from("bookings")
-            .update({
-              payment_status: "failed",
-              updated_at: new Date().toISOString(),
-            })
-            .eq("id", bookingId);
+          const query2 = supabase.from("bookings");
+          // @ts-expect-error - Supabase type inference issue with update
+          const { error: updateError } = await query2.update({
+            payment_status: "failed",
+            updated_at: new Date().toISOString(),
+          }).eq("id", bookingId);
 
           if (updateError) {
             console.error("Failed to update booking:", updateError);

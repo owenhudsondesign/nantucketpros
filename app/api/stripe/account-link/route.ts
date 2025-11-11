@@ -29,7 +29,9 @@ export async function POST(request: Request) {
       .eq('user_id', user.id)
       .single();
 
-    if (vendorError || !vendor || vendor.stripe_account_id !== accountId) {
+    const vendorData = vendor as any;
+
+    if (vendorError || !vendor || vendorData.stripe_account_id !== accountId) {
       return NextResponse.json({ error: 'Invalid account' }, { status: 403 });
     }
 

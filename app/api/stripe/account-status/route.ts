@@ -32,7 +32,9 @@ export async function GET(request: Request) {
       );
     }
 
-    if (!vendor.stripe_account_id) {
+    const vendorData = vendor as any;
+
+    if (!vendorData.stripe_account_id) {
       return NextResponse.json({
         accountExists: false,
         onboardingComplete: false,
@@ -42,23 +44,22 @@ export async function GET(request: Request) {
     }
 
     // Retrieve account details from Stripe
-    const account = await stripe.accounts.retrieve(vendor.stripe_account_id);
+    const account = await stripe.accounts.retrieve(vendorData.stripe_account_id);
 
     const onboardingComplete = account.details_submitted || false;
     const chargesEnabled = account.charges_enabled || false;
     const payoutsEnabled = account.payouts_enabled || false;
 
     // Update onboarding status in database if it changed
-    if (onboardingComplete !== vendor.stripe_onboarding_complete) {
-      await supabase
-        .from('vendors')
-        .update({ stripe_onboarding_complete: onboardingComplete })
-        .eq('user_id', user.id);
+    if (onboardingComplete !== vendorData.stripe_onboarding_complete) {
+      const query = supabase.from('vendors');
+      // @ts-expect-error - Supabase type inference issue with update
+      await query.update({ stripe_onboarding_complete: onboardingComplete }).eq('user_id', user.id);
     }
 
     return NextResponse.json({
       accountExists: true,
-      accountId: vendor.stripe_account_id,
+      accountId: vendorData.stripe_account_id,
       onboardingComplete,
       chargesEnabled,
       payoutsEnabled,

@@ -40,8 +40,10 @@ export async function GET(request: NextRequest) {
           return NextResponse.json({ error: 'Booking not found' }, { status: 404 });
         }
 
+        const bookingData = booking as any;
+
         // Check if booking has a payment intent
-        if (!booking.stripe_payment_intent_id) {
+        if (!bookingData.stripe_payment_intent_id) {
           return NextResponse.json(
             { error: 'No payment required for this booking yet' },
             { status: 400 }
@@ -50,7 +52,7 @@ export async function GET(request: NextRequest) {
 
         // Retrieve payment intent from Stripe
         const paymentIntent = await stripe.paymentIntents.retrieve(
-          booking.stripe_payment_intent_id
+          bookingData.stripe_payment_intent_id
         );
 
         return NextResponse.json({
@@ -58,10 +60,10 @@ export async function GET(request: NextRequest) {
           amount: paymentIntent.amount,
           status: paymentIntent.status,
           booking: {
-            id: booking.id,
-            service_type: booking.service_type,
-            vendor_name: booking.vendor?.business_name,
-            price: booking.price,
+            id: bookingData.id,
+            service_type: bookingData.service_type,
+            vendor_name: bookingData.vendor?.business_name,
+            price: bookingData.price,
           },
         });
       } catch (error: any) {
