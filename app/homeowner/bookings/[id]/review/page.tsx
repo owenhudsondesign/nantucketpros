@@ -55,11 +55,13 @@ export default function ReviewPage() {
         throw new Error("Booking not found");
       }
 
-      if (bookingData.status !== "completed") {
+      const booking = bookingData as any;
+
+      if (booking.status !== "completed") {
         throw new Error("Can only review completed bookings");
       }
 
-      setBooking(bookingData);
+      setBooking(booking);
 
       // Check for existing review
       const { data: reviewData } = await supabase
@@ -69,9 +71,10 @@ export default function ReviewPage() {
         .single();
 
       if (reviewData) {
-        setExistingReview(reviewData);
-        setRating(reviewData.rating);
-        setComment(reviewData.comment || "");
+        const review = reviewData as any;
+        setExistingReview(review);
+        setRating(review.rating);
+        setComment(review.comment || "");
       }
     } catch (error: any) {
       console.error("Error fetching booking:", error);
@@ -108,8 +111,9 @@ export default function ReviewPage() {
 
       if (existingReview) {
         // Update existing review
-        const { error } = await supabase
-          .from("reviews")
+        const query = supabase.from("reviews");
+        const { error } = await query
+          // @ts-expect-error - Supabase type inference issue with update
           .update({
             rating,
             comment: comment.trim() || null,
@@ -124,7 +128,9 @@ export default function ReviewPage() {
         });
       } else {
         // Create new review
-        const { error } = await supabase.from("reviews").insert(reviewData);
+        const query = supabase.from("reviews");
+        // @ts-expect-error - Supabase type inference issue with insert
+        const { error } = await query.insert(reviewData);
 
         if (error) throw error;
 

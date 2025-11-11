@@ -44,18 +44,20 @@ export default function VendorProfilePage() {
 
       if (error) throw error;
 
-      if (!data) {
+      const vendorData = data as any;
+
+      if (!vendorData) {
         setError("Vendor not found");
         return;
       }
 
       // Only show verified vendors to public (RLS handles this too)
-      if (!data.is_verified && (!user || user.id !== data.user_id)) {
+      if (!vendorData.is_verified && (!user || user.id !== vendorData.user_id)) {
         setError("This vendor profile is not yet verified");
         return;
       }
 
-      setVendor(data);
+      setVendor(vendorData);
     } catch (err: any) {
       console.error("Error fetching vendor:", err);
       setError(err.message || "Failed to load vendor profile");
@@ -77,12 +79,13 @@ export default function VendorProfilePage() {
 
       if (error) throw error;
 
-      setReviews(reviewsData || []);
+      const reviews = reviewsData as any;
+      setReviews(reviews || []);
 
       // Calculate average rating
-      if (reviewsData && reviewsData.length > 0) {
+      if (reviews && reviews.length > 0) {
         const avg =
-          reviewsData.reduce((sum, review) => sum + review.rating, 0) / reviewsData.length;
+          reviews.reduce((sum: number, review: any) => sum + review.rating, 0) / reviews.length;
         setAverageRating(Math.round(avg * 10) / 10);
       }
     } catch (err) {

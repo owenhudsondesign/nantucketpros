@@ -40,28 +40,31 @@ export default function VendorDashboardPage() {
         .eq("user_id", user!.id)
         .single();
 
-      setVendor(vendorData);
+      const vendor = vendorData as any;
+      setVendor(vendor);
 
       // Fetch stats
       const { data: bookingsData } = await supabase
         .from("bookings")
         .select("*")
-        .eq("vendor_id", vendorData?.id);
+        .eq("vendor_id", vendor?.id);
 
-      const pending = bookingsData?.filter((b) => b.status === "pending").length || 0;
-      const completed = bookingsData?.filter((b) => b.status === "completed").length || 0;
-      const earnings = bookingsData
-        ?.filter((b) => b.status === "completed")
-        .reduce((sum, b) => sum + (b.price || 0), 0) || 0;
+      const bookings = bookingsData as any;
+      const pending = bookings?.filter((b: any) => b.status === "pending").length || 0;
+      const completed = bookings?.filter((b: any) => b.status === "completed").length || 0;
+      const earnings = bookings
+        ?.filter((b: any) => b.status === "completed")
+        .reduce((sum: number, b: any) => sum + (b.price || 0), 0) || 0;
 
       // Fetch average rating
       const { data: reviewsData } = await supabase
         .from("reviews")
         .select("rating")
-        .eq("vendor_id", vendorData?.id);
+        .eq("vendor_id", vendor?.id);
 
-      const avgRating = reviewsData && reviewsData.length > 0
-        ? reviewsData.reduce((sum, r) => sum + r.rating, 0) / reviewsData.length
+      const reviews = reviewsData as any;
+      const avgRating = reviews && reviews.length > 0
+        ? reviews.reduce((sum: number, r: any) => sum + r.rating, 0) / reviews.length
         : null;
 
       setStats({
@@ -72,7 +75,7 @@ export default function VendorDashboardPage() {
       });
 
       // Fetch relevant community requests (matching vendor category)
-      if (vendorData?.category) {
+      if (vendor?.category) {
         const { data: requestsData } = await supabase
           .from("community_requests")
           .select(`
@@ -84,13 +87,14 @@ export default function VendorDashboardPage() {
             )
           `)
           .eq("status", "open")
-          .eq("category", vendorData.category)
+          .eq("category", vendor.category)
           .order("created_at", { ascending: false })
           .limit(5);
 
         // Filter out requests the vendor has already responded to
-        const filtered = requestsData?.filter((req) =>
-          !req.responses?.some((res: any) => res.vendor_id === vendorData.id)
+        const requests = requestsData as any;
+        const filtered = requests?.filter((req: any) =>
+          !req.responses?.some((res: any) => res.vendor_id === vendor.id)
         ) || [];
 
         setRelevantRequests(filtered);

@@ -58,8 +58,9 @@ export default function NewCommunityRequestPage() {
       }
 
       // Insert community request
-      const { data, error } = await supabase
-        .from("community_requests")
+      const query = supabase.from("community_requests");
+      const { data, error } = await query
+        // @ts-expect-error - Supabase type inference issue with insert
         .insert({
           homeowner_id: user.id,
           title: title.trim(),
@@ -77,6 +78,8 @@ export default function NewCommunityRequestPage() {
 
       if (error) throw error;
 
+      const requestData = data as any;
+
       setMessage({
         type: "success",
         text: "Service request posted successfully!",
@@ -84,7 +87,7 @@ export default function NewCommunityRequestPage() {
 
       // Redirect to the request detail page after a short delay
       setTimeout(() => {
-        router.push(`/community/${data.id}`);
+        router.push(`/community/${requestData.id}`);
       }, 1500);
     } catch (error: any) {
       console.error("Error creating community request:", error);

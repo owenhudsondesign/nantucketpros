@@ -41,8 +41,9 @@ export default function HomeownerProfilePage() {
       }
 
       // Update user profile
-      const { error } = await supabase
-        .from("users")
+      const query = supabase.from("users");
+      const { error } = await query
+        // @ts-expect-error - Supabase type inference issue with update
         .update({
           full_name: fullName,
           phone: phone || null,

@@ -69,18 +69,19 @@ export default function VendorProfilePage() {
       .eq("user_id", user.id)
       .single();
 
-    if (data) {
-      setExistingProfile(data);
-      setBusinessName(data.business_name);
-      setCategory(data.category);
-      setDescription(data.description || "");
-      setServices(data.services.length > 0 ? data.services : [""]);
-      setHourlyRate(data.hourly_rate?.toString() || "");
-      setServiceArea(data.service_area);
-      setLicenseNumber(data.license_number || "");
-      setInsuranceInfo(data.insurance_info || "");
-      setPhotos(data.photos || []);
-      setDocuments(data.documents || []);
+    const vendor = data as any;
+    if (vendor) {
+      setExistingProfile(vendor);
+      setBusinessName(vendor.business_name);
+      setCategory(vendor.category);
+      setDescription(vendor.description || "");
+      setServices(vendor.services.length > 0 ? vendor.services : [""]);
+      setHourlyRate(vendor.hourly_rate?.toString() || "");
+      setServiceArea(vendor.service_area);
+      setLicenseNumber(vendor.license_number || "");
+      setInsuranceInfo(vendor.insurance_info || "");
+      setPhotos(vendor.photos || []);
+      setDocuments(vendor.documents || []);
     }
   };
 
@@ -112,8 +113,9 @@ export default function VendorProfilePage() {
 
     // Update database
     if (existingProfile) {
-      await supabase
-        .from('vendors')
+      const query = supabase.from('vendors');
+      await query
+        // @ts-expect-error - Supabase type inference issue with update
         .update({ photos: newPhotos })
         .eq('user_id', user.id);
     }
@@ -133,8 +135,9 @@ export default function VendorProfilePage() {
 
     // Update database
     if (existingProfile) {
-      await supabase
-        .from('vendors')
+      const query = supabase.from('vendors');
+      await query
+        // @ts-expect-error - Supabase type inference issue with update
         .update({ photos: newPhotos })
         .eq('user_id', user.id);
     }
@@ -168,8 +171,9 @@ export default function VendorProfilePage() {
 
     // Update database
     if (existingProfile) {
-      await supabase
-        .from('vendors')
+      const query = supabase.from('vendors');
+      await query
+        // @ts-expect-error - Supabase type inference issue with update
         .update({ documents: newDocuments })
         .eq('user_id', user.id);
     }
@@ -189,8 +193,9 @@ export default function VendorProfilePage() {
 
     // Update database
     if (existingProfile) {
-      await supabase
-        .from('vendors')
+      const query = supabase.from('vendors');
+      await query
+        // @ts-expect-error - Supabase type inference issue with update
         .update({ documents: newDocuments })
         .eq('user_id', user.id);
     }
@@ -256,8 +261,9 @@ export default function VendorProfilePage() {
 
       if (existingProfile) {
         // Update existing profile
-        const { error } = await supabase
-          .from("vendors")
+        const query = supabase.from("vendors");
+        const { error } = await query
+          // @ts-expect-error - Supabase type inference issue with update
           .update(profileData)
           .eq("id", existingProfile.id);
 
@@ -269,7 +275,9 @@ export default function VendorProfilePage() {
         });
       } else {
         // Create new profile
-        const { error } = await supabase.from("vendors").insert(profileData);
+        const query = supabase.from("vendors");
+        // @ts-expect-error - Supabase type inference issue with insert
+        const { error } = await query.insert(profileData);
 
         if (error) throw error;
 

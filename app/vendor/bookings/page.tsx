@@ -45,7 +45,8 @@ export default function VendorBookingsPage() {
         .single();
 
       if (error) throw error;
-      setVendorId(data.id);
+      const vendorData = data as any;
+      setVendorId(vendorData.id);
     } catch (error) {
       console.error("Error fetching vendor profile:", error);
     }
@@ -146,8 +147,9 @@ export default function VendorBookingsPage() {
     setProcessingBooking(bookingId);
 
     try {
-      const { error } = await supabase
-        .from("bookings")
+      const query = supabase.from("bookings");
+      const { error } = await query
+        // @ts-expect-error - Supabase type inference issue with update
         .update({
           status: "cancelled",
           cancelled_at: new Date().toISOString(),

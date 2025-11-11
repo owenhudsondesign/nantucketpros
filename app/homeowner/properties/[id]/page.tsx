@@ -90,8 +90,9 @@ export default function PropertyDetailPage({ params }: { params: { id: string } 
 
   const toggleFavorite = async (propertyVendorId: string, currentValue: boolean) => {
     try {
-      const { error } = await supabase
-        .from("property_vendors")
+      const query = supabase.from("property_vendors");
+      const { error } = await query
+        // @ts-expect-error - Supabase type inference issue with update
         .update({ is_favorite: !currentValue })
         .eq("id", propertyVendorId);
 

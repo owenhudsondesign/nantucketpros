@@ -35,7 +35,9 @@ export default function NewPropertyPage() {
         return;
       }
 
-      const { error } = await supabase.from("properties").insert({
+      const query = supabase.from("properties");
+      // @ts-expect-error - Supabase type inference issue with insert
+      const { error } = await query.insert({
         user_id: user.id,
         name: formData.name,
         address: formData.address,

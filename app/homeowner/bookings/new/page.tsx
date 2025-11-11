@@ -36,6 +36,8 @@ function NewBookingForm() {
 
   const fetchVendor = async () => {
     try {
+      if (!vendorId) return;
+
       const { data, error } = await supabase
         .from("vendors")
         .select("*")
@@ -87,8 +89,9 @@ function NewBookingForm() {
       }
 
       // Create booking request
-      const { data: booking, error: bookingError } = await supabase
-        .from("bookings")
+      const query = supabase.from("bookings");
+      const { data: booking, error: bookingError } = await query
+        // @ts-expect-error - Supabase type inference issue with insert
         .insert({
           customer_id: user.id,
           vendor_id: vendorId,

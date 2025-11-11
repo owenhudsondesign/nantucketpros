@@ -76,17 +76,19 @@ export default function VendorsDirectoryPage() {
       if (error) throw error;
 
       // Fetch reviews and calculate ratings for each vendor
+      const vendors = vendorsData as any;
       const vendorsWithRatings = await Promise.all(
-        (vendorsData || []).map(async (vendor) => {
+        (vendors || []).map(async (vendor: any) => {
           const { data: reviews } = await supabase
             .from("reviews")
             .select("rating")
             .eq("vendor_id", vendor.id);
 
-          const ratings = reviews?.map((r) => r.rating) || [];
+          const reviewsData = reviews as any;
+          const ratings = reviewsData?.map((r: any) => r.rating) || [];
           const averageRating =
             ratings.length > 0
-              ? ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length
+              ? ratings.reduce((sum: number, rating: number) => sum + rating, 0) / ratings.length
               : 0;
 
           return {

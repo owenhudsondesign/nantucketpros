@@ -38,8 +38,9 @@ export default function HomeownerMessagesPage() {
       if (error) throw error;
 
       // Fetch unread message counts for each booking
+      const bookingsData = data as any;
       const bookingsWithUnread = await Promise.all(
-        (data || []).map(async (booking) => {
+        (bookingsData || []).map(async (booking: any) => {
           const { count } = await supabase
             .from("messages")
             .select("*", { count: "exact", head: true })

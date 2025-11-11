@@ -61,8 +61,9 @@ export default function HomeownerBookingsPage() {
     }
 
     try {
-      const { error } = await supabase
-        .from("bookings")
+      const query = supabase.from("bookings");
+      const { error } = await query
+        // @ts-expect-error - Supabase type inference issue with update
         .update({
           status: "cancelled",
           cancelled_at: new Date().toISOString(),

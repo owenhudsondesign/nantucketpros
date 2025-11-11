@@ -68,8 +68,9 @@ export async function GET(request: Request) {
       }
     } else {
       // Existing user - redirect based on their role
-      console.log('Existing user, role:', existingUser.role)
-      switch (existingUser.role) {
+      const userData = existingUser as any;
+      console.log('Existing user, role:', userData.role)
+      switch (userData.role) {
         case 'vendor':
           return NextResponse.redirect(`${origin}/vendor/dashboard`)
         case 'admin':

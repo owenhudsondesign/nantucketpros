@@ -120,7 +120,9 @@ export default function CommunityRequestDetailPage({ params }: { params: { id: s
         throw new Error("Please enter a message");
       }
 
-      const { error } = await supabase.from("community_request_responses").insert({
+      const query = supabase.from("community_request_responses");
+      // @ts-expect-error - Supabase type inference issue with insert
+      const { error } = await query.insert({
         request_id: params.id,
         vendor_id: vendor.id,
         message: responseMessage.trim(),
@@ -155,8 +157,9 @@ export default function CommunityRequestDetailPage({ params }: { params: { id: s
     if (!confirm("Are you sure you want to close this request?")) return;
 
     try {
-      const { error } = await supabase
-        .from("community_requests")
+      const query = supabase.from("community_requests");
+      const { error } = await query
+        // @ts-expect-error - Supabase type inference issue with update
         .update({ status: "closed" })
         .eq("id", params.id)
         .eq("homeowner_id", user!.id);

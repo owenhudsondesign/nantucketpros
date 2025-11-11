@@ -48,15 +48,16 @@ export function useMessages(bookingId: string | null, userId: string | null) {
         .order('created_at', { ascending: true });
 
       if (error) throw error;
-      setMessages(data || []);
+      const messagesData = data as any;
+      setMessages(messagesData || []);
 
       // Mark messages as read if they're not from the current user
-      const unreadMessages = (data || []).filter(
-        (msg) => !msg.read && msg.sender_id !== userId
+      const unreadMessages = (messagesData || []).filter(
+        (msg: any) => !msg.read && msg.sender_id !== userId
       );
 
       if (unreadMessages.length > 0) {
-        await markMessagesAsRead(unreadMessages.map((m) => m.id));
+        await markMessagesAsRead(unreadMessages.map((m: any) => m.id));
       }
     } catch (err: any) {
       console.error('Error fetching messages:', err);
@@ -96,8 +97,9 @@ export function useMessages(bookingId: string | null, userId: string | null) {
 
   const markMessagesAsRead = async (messageIds: string[]) => {
     try {
-      await supabase
-        .from('messages')
+      const query = supabase.from('messages');
+      await query
+        // @ts-expect-error - Supabase type inference issue with update
         .update({ read: true })
         .in('id', messageIds);
 
@@ -131,7 +133,9 @@ export function useMessages(bookingId: string | null, userId: string | null) {
     setMessages((current) => [...current, optimisticMessage]);
 
     try {
-      const { error } = await supabase.from('messages').insert({
+      const query = supabase.from('messages');
+      // @ts-expect-error - Supabase type inference issue with insert
+      const { error } = await query.insert({
         booking_id: bookingId,
         sender_id: userId,
         content: content.trim(),

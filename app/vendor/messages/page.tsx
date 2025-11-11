@@ -36,7 +36,8 @@ export default function VendorMessagesPage() {
         .single();
 
       if (error) throw error;
-      setVendorId(data.id);
+      const vendor = data as any;
+      setVendorId(vendor.id);
     } catch (error) {
       console.error("Error fetching vendor profile:", error);
     }
@@ -59,8 +60,9 @@ export default function VendorMessagesPage() {
       if (error) throw error;
 
       // Fetch unread message counts
+      const bookingsData = data as any;
       const bookingsWithUnread = await Promise.all(
-        (data || []).map(async (booking) => {
+        (bookingsData || []).map(async (booking: any) => {
           const { count } = await supabase
             .from("messages")
             .select("*", { count: "exact", head: true })

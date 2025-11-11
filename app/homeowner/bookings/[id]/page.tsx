@@ -60,12 +60,14 @@ export default function BookingDetailPage({ params }: { params: { id: string } }
 
       if (bookingError) throw bookingError;
 
-      if (bookingData.customer_id !== user!.id) {
+      const booking = bookingData as any;
+
+      if (booking.customer_id !== user!.id) {
         throw new Error("Unauthorized");
       }
 
-      setBooking(bookingData);
-      setVendor(bookingData.vendor);
+      setBooking(booking);
+      setVendor(booking.vendor);
       setLoading(false);
     } catch (error: any) {
       console.error("Error fetching booking:", error);
@@ -114,8 +116,9 @@ export default function BookingDetailPage({ params }: { params: { id: string } }
     if (!confirm("Are you sure you want to cancel this booking?")) return;
 
     try {
-      const { error } = await supabase
-        .from("bookings")
+      const query = supabase.from("bookings");
+      const { error } = await query
+        // @ts-expect-error - Supabase type inference issue with update
         .update({ status: "cancelled" })
         .eq("id", params.id)
         .eq("customer_id", user!.id);
