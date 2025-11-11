@@ -118,10 +118,10 @@ export default function AdminBookingsPage() {
       const { error } = await supabase
         .from("bookings")
         .update({
-          status: "cancelled",
+          status: "cancelled" as const,
           cancelled_at: new Date().toISOString(),
           cancellation_reason: `[Admin] ${cancellationReason.trim()}`,
-        })
+        } as any)
         .eq("id", selectedBooking.id);
 
       if (error) throw error;
