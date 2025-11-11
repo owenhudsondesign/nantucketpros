@@ -179,7 +179,7 @@ export default function OnboardingCompletePage() {
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-ocean-600 mt-0.5">•</span>
-                    <span>Platform fee: 15% per booking</span>
+                    <span>Platform fee: 10% per booking</span>
                   </li>
                 </ul>
               </div>

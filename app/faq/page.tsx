@@ -28,7 +28,7 @@ const faqs: FAQItem[] = [
   },
   {
     question: "Is NantucketPros free to use?",
-    answer: "For homeowners, browsing and booking services is completely free. Vendors pay a 5% commission only on completed jobs - no monthly fees or upfront costs.",
+    answer: "For homeowners, browsing and booking services is completely free. Vendors pay a 10% commission only on completed jobs - no monthly fees or upfront costs.",
     category: "general",
   },
   {
@@ -77,7 +77,7 @@ const faqs: FAQItem[] = [
   },
   {
     question: "How much does it cost to be a vendor?",
-    answer: "There are no setup fees or monthly subscriptions. We charge a simple 5% commission on completed jobs only. You only pay when you get paid.",
+    answer: "There are no setup fees or monthly subscriptions. We charge a simple 10% commission on completed jobs only. You only pay when you get paid.",
     category: "vendors",
   },
   {
@@ -87,7 +87,7 @@ const faqs: FAQItem[] = [
   },
   {
     question: "When do I get paid?",
-    answer: "Once you complete a job and the homeowner approves it, payment is released to your account within 2-3 business days. Our 5% commission is automatically deducted before payout.",
+    answer: "Once you complete a job and the homeowner approves it, payment is released to your account within 2-3 business days. Our 10% commission is automatically deducted before payout.",
     category: "vendors",
   },
   {
@@ -109,7 +109,7 @@ const faqs: FAQItem[] = [
   },
   {
     question: "Are there any additional fees?",
-    answer: "For homeowners, there are no additional fees beyond the quoted service price. Vendors pay a 5% commission on completed jobs. Standard payment processing fees are included in this commission.",
+    answer: "For homeowners, there are no additional fees beyond the quoted service price. Vendors pay a 10% commission on completed jobs. Standard payment processing fees are included in this commission.",
     category: "payments",
   },
   {

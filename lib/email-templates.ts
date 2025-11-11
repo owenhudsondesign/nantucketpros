@@ -158,7 +158,7 @@ export function paymentReceivedEmail(data: {
       <p><strong>Service:</strong> ${data.serviceType}</p>
       <p><strong>Total Payment:</strong> $${data.price.toFixed(2)}</p>
       <p><strong>Your Earnings:</strong> $${data.vendorEarnings.toFixed(2)}</p>
-      <p style="font-size: 12px; color: #6b7280;">Platform fee (15%): $${(data.price - data.vendorEarnings).toFixed(2)}</p>
+      <p style="font-size: 12px; color: #6b7280;">Platform fee (10%): $${(data.price - data.vendorEarnings).toFixed(2)}</p>
     </div>
 
     <p>You can now proceed with providing the service. Once completed, mark the booking as complete to receive your payment.</p>

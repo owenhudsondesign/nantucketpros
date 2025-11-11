@@ -110,7 +110,7 @@ export default function BecomeVendorPage() {
 
               <div className="bg-muted/20 border border-border/40 rounded-lg p-8 md:p-12 text-center space-y-6">
                 <div className="space-y-2">
-                  <div className="text-5xl font-bold">5%</div>
+                  <div className="text-5xl font-bold">10%</div>
                   <p className="text-xl text-muted-foreground">Commission per completed job</p>
                 </div>
                 <div className="border-t border-border/40 pt-6 space-y-3">

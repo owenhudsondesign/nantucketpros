@@ -461,7 +461,7 @@ CREATE POLICY "Admins can manage settings"
 
 -- Insert default platform settings
 INSERT INTO admin_settings (key, value, description) VALUES
-  ('commission_rate', '0.15', 'Platform commission rate (15%)'),
+  ('commission_rate', '0.10', 'Platform commission rate (10%)'),
   ('require_vendor_verification', 'true', 'Require admin verification before vendors appear in search'),
   ('booking_cancellation_hours', '24', 'Minimum hours before booking to allow cancellation'),
   ('payout_delay_days', '7', 'Days to wait before releasing funds to vendor after completion');

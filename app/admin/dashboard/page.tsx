@@ -85,7 +85,7 @@ export default function AdminDashboardPage() {
         (sum, booking: any) => sum + (booking.price || 0),
         0
       ) || 0;
-      const platformRevenue = totalRevenue * 0.05; // 5% commission
+      const platformRevenue = totalRevenue * 0.10; // 10% commission
 
       // Fetch user stats
       const { count: totalUsers } = await supabase
@@ -158,7 +158,7 @@ export default function AdminDashboardPage() {
           </Card>
           <Card>
             <CardHeader className="pb-3">
-              <CardDescription>Platform Revenue (5%)</CardDescription>
+              <CardDescription>Platform Revenue (10%)</CardDescription>
               <CardTitle className="text-3xl text-green-600">
                 {formatCurrency(stats.platformRevenue)}
               </CardTitle>

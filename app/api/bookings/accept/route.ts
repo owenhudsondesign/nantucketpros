@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
 
         const commissionRate = commissionSetting
           ? parseFloat((commissionSetting as any).value as string)
-          : 0.15; // Default 15%
+          : 0.10; // Default 10%
 
         // Create Stripe Payment Intent with application fee
         const amountInCents = Math.round(price * 100);

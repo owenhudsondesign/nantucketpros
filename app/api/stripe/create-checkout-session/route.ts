@@ -58,8 +58,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Calculate platform fee (5% of total)
-    const platformFeeAmount = Math.round(bookingData.price * 100 * 0.05);
+    // Calculate platform fee (10% of total)
+    const platformFeeAmount = Math.round(bookingData.price * 100 * 0.10);
     const totalAmount = Math.round(bookingData.price * 100);
 
     // Create Checkout Session

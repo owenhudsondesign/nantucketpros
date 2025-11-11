@@ -304,7 +304,7 @@ export default function BookingDetailPage({ params }: { params: { id: string } }
               <ul className="text-sm text-blue-800 space-y-1 list-disc list-inside">
                 <li>Payment held securely until service completion</li>
                 <li>Full refund available if service is not delivered</li>
-                <li>5% platform fee supports verified vendors</li>
+                <li>10% platform fee supports verified vendors</li>
               </ul>
 
               <Button

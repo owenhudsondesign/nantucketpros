@@ -378,10 +378,10 @@ export default function VendorBookingsPage() {
                 </div>
 
                 <div className="text-xs text-sand-600 bg-sand-50 p-3 rounded-md">
-                  <p className="font-semibold mb-1">Platform fee: 15%</p>
+                  <p className="font-semibold mb-1">Platform fee: 10%</p>
                   {price && !isNaN(parseFloat(price)) && (
                     <p>
-                      You will receive: ${(parseFloat(price) * 0.85).toFixed(2)} (after platform fee)
+                      You will receive: ${(parseFloat(price) * 0.90).toFixed(2)} (after platform fee)
                     </p>
                   )}
                 </div>
