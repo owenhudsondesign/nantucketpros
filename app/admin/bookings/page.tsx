@@ -77,7 +77,7 @@ export default function AdminBookingsPage() {
 
       // Fetch unread message counts for each booking
       const bookingsWithMessages = await Promise.all(
-        (data || []).map(async (booking) => {
+        (data || []).map(async (booking: any) => {
           const { count } = await supabase
             .from("messages")
             .select("*", { count: "exact", head: true })
@@ -86,7 +86,7 @@ export default function AdminBookingsPage() {
           return {
             ...booking,
             unread_messages: count || 0,
-          };
+          } as BookingWithDetails;
         })
       );
 
